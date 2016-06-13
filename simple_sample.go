@@ -113,9 +113,9 @@ func (t *SimpleChaincode) create_patient(stub *shim.ChaincodeStub, args []string
    
    var p Patient
    
-   id :=  "\"id\":\""+args[0]+"\", "
-   name := "\"name\":\""+args[1]+"\", "
-   address :=  "\"address\":\""+args[2]+"\""
+   id :=  "\"Id\":\""+args[0]+"\", "
+   name := "\"Name\":\""+args[1]+"\", "
+   address :=  "\"Address\":\""+args[2]+"\""
    
    json_string :="{"+id+name+address+"}"
    
