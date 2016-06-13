@@ -220,16 +220,11 @@ func (t *SimpleChaincode) Invoke(stub *shim.ChaincodeStub, function string, args
 	if err != nil { return nil, errors.New("Error retrieving caller information")}
 
 	
-	if function == "create_patient" { return t.create_patient(stub, caller, caller_affiliation, args[0])
+	if function == "create_patient" { return t.create_patient(stub, caller, caller_affiliation, args[0],args[1],args[2],args[3],args[4])
 	} else { 																				// If the function is not a create then there must be a car so we need to retrieve the car.
 		
-		argPos := 1
 		
-		if function == "scrap_vehicle" {																// If its a scrap vehicle then only two arguments are passed (no update value) all others have three arguments and the v5cID is expected in the last argument
-			argPos = 0
-		}
-		
-		p,err := t.retrieve_patient(stub, args[argPos])
+		p,err := t.retrieve_patient(stub, args[0])
 		fmt.Printf("INVOKE: Patient  Id exist: %s", p.Id)
 		
 			if err != nil { fmt.Printf("INVOKE: Error retrieving Id: %s", err); return nil, errors.New("Error retrieving Patient") }
@@ -262,16 +257,16 @@ func (t *SimpleChaincode) Query(stub *shim.ChaincodeStub, function string, args 
 //=================================================================================================================================									
 //	 Create Vehicle - Creates the initial JSON for the vehcile and then saves it to the ledger.									
 //=================================================================================================================================
-func (t *SimpleChaincode) create_patient(stub *shim.ChaincodeStub, caller string, caller_affiliation int, Id string) ([]byte, error) {								
+func (t *SimpleChaincode) create_patient(stub *shim.ChaincodeStub, caller string, caller_affiliation int, Id string,Name string,Gender string,DOB string,Contact string) ([]byte, error) {								
 
 	var p Patient																																										
 	
 	id	           := "\"ID\":\""+Id+"\", "							// Variables to define the JSON
-	name           := "\"Name\":\"UNDEFINED\", "
-	gender          := "\"Gender\":\"UNDEFINED\", "
-	dob            := "\"DOB\":\"UNDEFINED\", "
+	name           := "\"Name\":\""+Name+"\", "
+	gender          := "\"Gender\":\""+Gender+"\", "
+	dob            := "\"DOB\":\""+DOB+"\", "
 	createdby          := "\"CreatedBy\":\""+caller+"\", "
-	contact         := "\"Contact\":\"UNDEFINED\", "
+	contact         := "\"Contact\":\""+Contact+"\", "
 	
 	patient_json := "{"+id+name+gender+dob+createdby+contact+"}" 	// Concatenates the variables to create the total JSON object
 	
