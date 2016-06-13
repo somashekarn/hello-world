@@ -52,7 +52,7 @@ type Patient struct {
 	Name            string `json:"name"`
 	Gender           string `json:"gender"`
 	DOB             string `json:"dob"`
-	Id               string  `json:"pid"`					
+	Id               string  `json:"id"`					
 	Contact           string `json:"contact"`
 	CreatedBy        string `json:"createdby"`
 }
@@ -183,10 +183,10 @@ func (t *SimpleChaincode) retrieve_patient(stub *shim.ChaincodeStub, Id string) 
 				
 															if err != nil {	fmt.Printf("RETRIEVE_Patient: Failed to invoke patient_code: %s", err); return p, errors.New("RETRIEVE_Patient: Error retrieving Patient with id = " + Id) }
 
-	fmt.Printf("Patient dump form the BC %s",string(bytes));
+	fmt.Println("Patient dump form the BC SOMA "+string(bytes));
 	err = json.Unmarshal(bytes, &p)	;						
 
-															if err != nil {	fmt.Printf("RETRIEVE_Patient: Corrupt vehicle record "+string(bytes)+": %s", err); return p, errors.New("RETRIEVE_Patient: Corrupt Patient record"+string(bytes))	}
+															if err != nil {	fmt.Printf("RETRIEVE_Patient: Corrupt patient record "+string(bytes)+": %s", err); return p, errors.New("RETRIEVE_Patient: Corrupt Patient record"+string(bytes))	}
 	
 	return p, nil
 }
@@ -262,14 +262,14 @@ func (t *SimpleChaincode) create_patient(stub *shim.ChaincodeStub, caller string
 
 	var p Patient																																										
 	
-	pid	           := "\"ID\":\""+Id+"\", "							// Variables to define the JSON
+	id	           := "\"ID\":\""+Id+"\", "							// Variables to define the JSON
 	name           := "\"Name\":\""+Name+"\", "
 	gender          := "\"Gender\":\""+Gender+"\", "
 	dob            := "\"DOB\":\""+DOB+"\", "
 	createdby          := "\"CreatedBy\":\""+caller+"\", "
 	contact         := "\"Contact\":\""+Contact+"\", "
 	
-	patient_json := "{"+pid+name+gender+dob+createdby+contact+"}" 	// Concatenates the variables to create the total JSON object
+	patient_json := "{"+id+name+gender+dob+createdby+contact+"}" 	// Concatenates the variables to create the total JSON object
 	
 	matched, err := regexp.Match("^[A-z][A-z][0-9]{7}", []byte(Id))  				// matched = true if the v5cID passed fits format of two letters followed by seven digits
 	
