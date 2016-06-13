@@ -81,6 +81,7 @@ func (t *SimpleChaincode) Query(stub *shim.ChaincodeStub, function string, args 
     	if err != nil { fmt.Printf("QUERY: Error retrieving Id: %s", err); return nil, errors.New("QUERY: Error retrieving id "+err.Error()) }
     	
     	fmt.Println("The Patient found"+p.Name)
+    	return nil,nil
     }
     fmt.Println("query did not find func: " + function)
 
