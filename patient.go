@@ -269,7 +269,7 @@ func (t *SimpleChaincode) create_patient(stub *shim.ChaincodeStub, caller string
 	//name           := "\"Name\":\""+Name+"\", "
 	//gender          := "\"Gender\":\""+Gender+"\", "
 	//dob            := "\"DOB\":\""+DOB+"\", "
-	createdby          := "\"createdby\":\""+caller+"\"
+	createdby          := "\"createdby\":\""+caller+"\""
 	//contact         := "\"Contact\":\""+Contact+"\"
 	
 	//patient_json := "{"+id+name+gender+dob+createdby+contact+"}" 	// Concatenates the variables to create the total JSON object
