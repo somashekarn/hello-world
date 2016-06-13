@@ -54,7 +54,7 @@ type Patient struct {
 	//DOB             string `json:"dob"`
 	Id               string  `json:"id"`					
 	//Contact           string `json:"contact"`
-	CreatedBy        string `json:"createdby"`
+	//CreatedBy        string `json:"createdby"`
 }
 
 //==============================================================================================================================
@@ -269,12 +269,12 @@ func (t *SimpleChaincode) create_patient(stub *shim.ChaincodeStub, caller string
 	//name           := "\"Name\":\""+Name+"\", "
 	//gender          := "\"Gender\":\""+Gender+"\", "
 	//dob            := "\"DOB\":\""+DOB+"\", "
-	createdby          := "\"createdby\":\""+caller+"\", "
+	//createdby          := "\"createdby\":\""+caller+"\", "
 	//contact         := "\"Contact\":\""+Contact+"\", "
 	
 	//patient_json := "{"+id+name+gender+dob+createdby+contact+"}" 	// Concatenates the variables to create the total JSON object
 	
-	patient_json := "{"+id+createdby+"}"
+	patient_json := "{"+id+"}"
 	
 	matched, err := regexp.Match("^[A-z][A-z][0-9]{7}", []byte(Id))  				// matched = true if the v5cID passed fits format of two letters followed by seven digits
 	
@@ -320,13 +320,15 @@ func (t *SimpleChaincode) get_all(stub *shim.ChaincodeStub, p Patient, caller st
 	
 																if err != nil { return nil, errors.New("GET_ALL: Invalid Patient object") }
 																
-	if 		p.CreatedBy				== caller		||
-			caller_affiliation	== HOSPITAL	{
-			
-					return bytes, nil		
-	} else {
-																return nil, errors.New("Permission Denied")	
-	}
+//	if 		p.CreatedBy				== caller		||
+//			caller_affiliation	== HOSPITAL	{
+//			
+//					return bytes, nil		
+//	} else {
+//																return nil, errors.New("Permission Denied")	
+//	}
+
+	return bytes,nil
 
 }
 
