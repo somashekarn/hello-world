@@ -49,11 +49,11 @@ type  SimpleChaincode struct {
 //			  that element when reading a JSON object into the struct e.g. JSON make -> Struct Make.
 //==============================================================================================================================
 type Patient struct {
-	Name            string `json:"name"`
-	Gender           string `json:"gender"`
-	DOB             string `json:"dob"`
+	//Name            string `json:"name"`
+	//Gender           string `json:"gender"`
+	//DOB             string `json:"dob"`
 	Id               string  `json:"id"`					
-	Contact           string `json:"contact"`
+	//Contact           string `json:"contact"`
 	CreatedBy        string `json:"createdby"`
 }
 
@@ -184,7 +184,10 @@ func (t *SimpleChaincode) retrieve_patient(stub *shim.ChaincodeStub, Id string) 
 															if err != nil {	fmt.Printf("RETRIEVE_Patient: Failed to invoke patient_code: %s", err); return p, errors.New("RETRIEVE_Patient: Error retrieving Patient with id = " + Id) }
 
 	fmt.Println("Patient dump form the BC SOMA "+string(bytes));
-	err = json.Unmarshal(bytes, &p)	;						
+	
+	err = json.Unmarshal(bytes, &p)	;	
+	fmt.Println(err)
+	fmt.Println("The error from the Json unmarshal")					
 
 															if err != nil {	fmt.Printf("RETRIEVE_Patient: Corrupt patient record "+string(bytes)+": %s", err); return p, errors.New("RETRIEVE_Patient: Corrupt Patient record"+string(bytes))	}
 	
@@ -220,8 +223,8 @@ func (t *SimpleChaincode) Invoke(stub *shim.ChaincodeStub, function string, args
 
 	if err != nil { return nil, errors.New("Error retrieving caller information")}
 
-	
-	if function == "create_patient" { return t.create_patient(stub, caller, caller_affiliation, args[0],args[1],args[2],args[3],args[4])
+	//if function == "create_patient" { return t.create_patient(stub, caller, caller_affiliation, args[0],args[1],args[2],args[3],args[4])
+	if function == "create_patient" { return t.create_patient(stub, caller, caller_affiliation, args[0])
 	} else { 																				// If the function is not a create then there must be a car so we need to retrieve the car.
 		
 		
@@ -258,18 +261,20 @@ func (t *SimpleChaincode) Query(stub *shim.ChaincodeStub, function string, args 
 //=================================================================================================================================									
 //	 Create Vehicle - Creates the initial JSON for the vehcile and then saves it to the ledger.									
 //=================================================================================================================================
-func (t *SimpleChaincode) create_patient(stub *shim.ChaincodeStub, caller string, caller_affiliation int, Id string,Name string,Gender string,DOB string,Contact string) ([]byte, error) {								
+func (t *SimpleChaincode) create_patient(stub *shim.ChaincodeStub, caller string, caller_affiliation int, Id string) ([]byte, error) {								
 
 	var p Patient																																										
 	
-	id	           := "\"ID\":\""+Id+"\", "							// Variables to define the JSON
-	name           := "\"Name\":\""+Name+"\", "
-	gender          := "\"Gender\":\""+Gender+"\", "
-	dob            := "\"DOB\":\""+DOB+"\", "
-	createdby          := "\"CreatedBy\":\""+caller+"\", "
-	contact         := "\"Contact\":\""+Contact+"\", "
+	id	           := "\"id\":\""+Id+"\", "							// Variables to define the JSON
+	//name           := "\"Name\":\""+Name+"\", "
+	//gender          := "\"Gender\":\""+Gender+"\", "
+	//dob            := "\"DOB\":\""+DOB+"\", "
+	createdby          := "\"createdby\":\""+caller+"\", "
+	//contact         := "\"Contact\":\""+Contact+"\", "
 	
-	patient_json := "{"+id+name+gender+dob+createdby+contact+"}" 	// Concatenates the variables to create the total JSON object
+	//patient_json := "{"+id+name+gender+dob+createdby+contact+"}" 	// Concatenates the variables to create the total JSON object
+	
+	patient_json := "{"+id+createdby+"}"
 	
 	matched, err := regexp.Match("^[A-z][A-z][0-9]{7}", []byte(Id))  				// matched = true if the v5cID passed fits format of two letters followed by seven digits
 	
