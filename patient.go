@@ -183,6 +183,7 @@ func (t *SimpleChaincode) retrieve_patient(stub *shim.ChaincodeStub, Id string) 
 				
 															if err != nil {	fmt.Printf("RETRIEVE_Patient: Failed to invoke patient_code: %s", err); return p, errors.New("RETRIEVE_Patient: Error retrieving Patient with id = " + Id) }
 
+	fmt.Printf("Patient dump form the BC %s",string(bytes));
 	err = json.Unmarshal(bytes, &p)	;						
 
 															if err != nil {	fmt.Printf("RETRIEVE_Patient: Corrupt vehicle record "+string(bytes)+": %s", err); return p, errors.New("RETRIEVE_Patient: Corrupt Patient record"+string(bytes))	}
