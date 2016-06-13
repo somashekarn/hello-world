@@ -265,16 +265,16 @@ func (t *SimpleChaincode) create_patient(stub *shim.ChaincodeStub, caller string
 
 	var p Patient																																										
 	
-	id	           := "\"id\":\""+Id+"\", "							// Variables to define the JSON
+	//id	           := "\"id\":\""+Id+"\", "							// Variables to define the JSON
 	//name           := "\"Name\":\""+Name+"\", "
 	//gender          := "\"Gender\":\""+Gender+"\", "
 	//dob            := "\"DOB\":\""+DOB+"\", "
-	createdby          := "\"createdby\":"+caller
+	//createdby          := "\"createdby\":"+caller
 	//contact         := "\"Contact\":\""+Contact+"\"
 	
 	//patient_json := "{"+id+name+gender+dob+createdby+contact+"}" 	// Concatenates the variables to create the total JSON object
 	
-	patient_json := "{"+id+createdby+"}"
+	patient_json := "{\"id\":\"aa1234567\",\"createdby\":\"soma\"}"
 	
 	matched, err := regexp.Match("^[A-z][A-z][0-9]{7}", []byte(Id))  				// matched = true if the v5cID passed fits format of two letters followed by seven digits
 	
